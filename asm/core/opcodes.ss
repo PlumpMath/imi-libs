@@ -5,10 +5,11 @@
           opcode-bytes)
   (import (rnrs))
 
-  ;;; to get the size of an asm opcode and generate it
+  ;;; to get the size of an asm opcode
+  ;;;   (in bytes) and generate it
   ;;;
   ;;; size - positive-integer?
-  ;;; generator - (->* integer? args)
+  ;;; generator - (->* bytevector? args)
   (define-record-type opcode
     (fields
       size
@@ -28,8 +29,13 @@
   ;;;
   ;;; opcode - opcode?
   ;;; extra - args
-  ;;;  -> integer?
+  ;;;  -> bytevector?
   (define (opcode-bytes opcode . extra)
-    (apply (opcode-generator opcode) extra))
+    (let ([bytes (make-bytevector (opcode-size opcode))]
+          [code (apply (opcode-generator opcode) extra)])
+      (bytevector-set! bytes 0 code
+                       (endianness little)
+                       (opcode-size opcode))
+      bytes))
 
   )
