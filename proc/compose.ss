@@ -1,6 +1,7 @@
 (library (imi proc compose)
   (export compose
           preproc
+          pre
           neg)
   (import (rnrs)
           (imi sugar cut))
@@ -15,6 +16,17 @@
   (define (preproc pre proc)
     (lambda x
       (apply proc (map pre x))))
+
+  ;;; same as preproc but arguments in
+  ;;;   reverse order (maybe simpler to
+  ;;;   handle)
+  ;;;
+  ;;; proc - (->* out (listof/c between))
+  ;;; preproc - (-> between in)
+  ;;;  -> (->* out (listof/c in))
+  (define (pre proc preproc)
+    (lambda args
+      (apply proc (map preproc args))))
 
   ;;; generates a procedure composed of
   ;;;   `outer` and `inner`, meaning
