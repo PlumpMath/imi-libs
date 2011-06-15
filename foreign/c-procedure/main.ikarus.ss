@@ -1,0 +1,40 @@
+(library (imi foreign c-procedure)
+  (export (rename (imi-c-callout make-c-callout)
+                  (imi-c-callout make-c-callback)))
+  (import (rnrs)
+          (imi sugar cut)
+          (only (ikarus foreign)
+                make-c-callout
+                make-c-callback))
+
+  (define type-map
+    '((void . void)
+      (char . signed-char)
+      (schar . signed-char)
+      (uchar . unsigned-char)
+      (short . signed-short)
+      (sshort . signed-short)
+      (ushort . unsigned-short)
+      (int . signed-int)
+      (sint . signed-int)
+      (uint . unsigned-int)
+      (long . signed-long)
+      (slong . signed-long)
+      (ulong . unsigned-long)
+      (float . float)
+      (double . double)
+      (pointer . pointer)))
+
+  (define (get-type who type)
+    (cdr (or (assq type type-map)
+             (error who "unknown type" type))))
+  
+  (define (imi-c-callout ret args)
+    (make-c-callout (get-type 'make-c-callout ret)
+                    (map (cut get-type 'make-c-callout <>) args)))
+
+  (define (imi-c-callback ret args)
+    (make-c-callback (get-type 'make-c-callback ret)
+                     (map (cut get-type 'make-c-callback <>) args)))
+  
+  )
