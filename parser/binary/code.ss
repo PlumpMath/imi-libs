@@ -23,11 +23,11 @@
 
   (define (parse-binary-code parse-info code)
     (let ([code-len (car parse-info)]
-          [tree-info (cdr parse-info)])
+          [info (cdr parse-info)])
       (cond
-        [(not (list? tree-info)) tree-info]
+        [(not (list? info)) info]
         [(find (subtree-matcher code code-len)
-               tree-info)
+               info)
          => (lambda (match)
               (parse-binary-code
                 (cons (- code-len (tree-mask-len match))
@@ -36,13 +36,13 @@
         [else
          (error 'parse-binary-code
                 "invalid code for parse-tree"
-                parse-info code)])))
+                info code)])))
 
   (define (prepend-section code-len tree subcode)
     (bitwise-ior
       (bitwise-arithmetic-shift-left
-        (tree-code subtree)
-        (- code-len (tree-mask-len subtree)))
+        (tree-code tree)
+        (- code-len (tree-mask-len tree)))
       subcode))
 
   (define (prepend-section/collect code-len)
