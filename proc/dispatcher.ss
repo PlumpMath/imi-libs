@@ -7,10 +7,10 @@
 
   (define (generic-dispatcher name choose)
     (lambda (criteria ls . curried-args)
-      (apply (or (choose criteria ls)
-                 (error name
-                        "could not dispatch"
-                        criteria ls))
+      (apply (cdr (or (choose criteria ls)
+                      (error name
+                             "could not dispatch"
+                             criteria ls)))
              curried-args)))
 
   (define dispatchq (generic-dispatcher 'dispatchq assq))
