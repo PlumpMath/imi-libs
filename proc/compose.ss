@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi proc compose)
   (export compose
           preproc

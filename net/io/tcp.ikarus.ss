@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi net io tcp)
   (export tcp-connect
           tcp-server-socket

@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi iter iterator)
   (export iterate
           make-iterator

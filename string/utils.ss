@@ -1,9 +1,15 @@
+#!r6rs
+
 (library (imi string utils)
   (export string-last-pos
-          whitespace?)
+          whitespace?
+          
+          string-pad
+          string-group)
   (import (rnrs)
           (imi math)
-          (imi utils check))
+          (imi list utils)
+          (imi utils tester))
   
   ;;; position of last character in `str`
   ;;;
@@ -15,5 +21,15 @@
   ;;; checks if a character is a whitespace
   (define whitespace?
     (char-in " \t\r\n"))
+
+  
+  (define (string-pad len fill str)
+    (list->string
+      (list-pad len fill (string->list str))))
+
+  (define (string-group len str)
+    (map list->string
+         (list-group len (string->list str))))
+
 
   )

@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi utils records updater)
   (export updater)
   (import (rnrs))

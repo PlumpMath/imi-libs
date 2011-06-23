@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi sugar case-pred)
   (export case-pred)
   (import (rnrs)

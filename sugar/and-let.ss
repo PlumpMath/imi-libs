@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi sugar and-let)
   (export and-let)
   (import (rnrs))
@@ -18,6 +20,9 @@
         [(and-let (id expr) . rest)
          #'(let ([id expr])
              (and id
-                  (and-let . rest)))])))
+                  (and-let . rest)))]
+        [(and-let (expr) . rest)
+         #'(and expr
+                (and-let . rest))])))
 
   )

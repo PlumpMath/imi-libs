@@ -1,5 +1,8 @@
+#!r6rs
+
 (library (imi sugar for)
-  (export for
+  (export in
+          for
           for*)
   (import (rnrs)
           (imi iter iterator)

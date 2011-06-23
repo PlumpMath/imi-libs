@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi math mapping)
   (export mapping-linear
           mapping-around

@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi iter construct)
   (export iter-construct
           iter-construct-list)

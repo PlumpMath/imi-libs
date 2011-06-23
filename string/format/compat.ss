@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi string format compat)
   (export format)
   (import (rnrs)
@@ -20,7 +22,7 @@
                 [(#\s) 
                   (read-char)
                   (with-arg write)]
-                [(#\a)
+                [(#)
                   (read-char)
                   (with-arg display)]
                 [(#\d)

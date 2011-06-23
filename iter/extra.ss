@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi iter extra)
   (export limit-iter)
   (import (rnrs)

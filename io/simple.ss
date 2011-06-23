@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi io simple)
   (export call-with-i/o-ports
           with-i/o-ports

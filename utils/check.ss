@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi utils check)
   (export check)
   (import (rnrs))

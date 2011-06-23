@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi utils gensym compat)
   (export gensym)
   (import (rnrs)

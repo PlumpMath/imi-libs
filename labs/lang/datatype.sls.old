@@ -1,0 +1,77 @@
+#!r6rs
+
+(library (imi labs lang datatype)
+  (export define-datatype
+          cases)
+  (import (rnrs))
+
+  (define-syntax define-datatype
+    (syntax-rules ()
+      [(_ name pred
+          [sub (subslot subslottype) ...]
+          ...)
+       (begin (define-cases name [sub subslot ...])
+              ...
+              (define-record-type sub
+                (fields subslot ...)
+                (protocol
+                  (lambda (new)
+                    (lambda (subslot ...)
+                      (if (and (subslottype subslot) ...)
+                          (new subslot ...)
+                          (error 'sub "invalid arguments" subslot ...))))))
+              ...)]))
+
+  (define-syntax define-cases
+    (lambda (stx)
+      (define (pred stx)
+        (datum->syntax stx
+          (string->symbol
+            (string-append
+              (symbol->string (syntax->datum stx))
+              "?"))))
+
+      (define (slot rec slot)
+        (datum->syntax slot
+          (string->symbol
+            (string-append
+              (symbol->string (syntax->datum rec))
+              "-"
+              (symbol->string (syntax->datum slot))))))
+
+      (syntax-case stx ()
+        [(_ name [sub subslot ...])
+         (with-syntax ([subpred       (pred #'sub)]
+                       [(subacc ...)  (map (lambda (sl)
+                                             (slot #'sub sl))
+                                           #'(subslot ...))])
+           #'(define-syntax name
+               (lambda (stx)
+                 (syntax-case stx ()
+                   [(_ sub x (subslot ...) (body ...) else-expr)
+                    (if (subpred x)
+                        (let ([subslot (subacc x)]
+                              ...)
+                          body ...)
+                        else-expr)]))))])))
+
+  (define-syntax cases
+    (syntax-rules ()
+      [(cases type x
+         [sub (slots ...) body ...]
+         ...)
+       (let ([tmp x])
+         (cases-inner type tmp
+           [sub (slots ...) body ...]
+           ...))]))
+
+  (define-syntax cases-inner
+    (syntax-rules ()
+      [(_ type x [sub (slots ...) body ...] rest ...)
+       (type sub x (slots ...) (body ...)
+         (cases-inner type x rest ...))]
+      [(_ type x)
+       '()]))
+
+  )
+

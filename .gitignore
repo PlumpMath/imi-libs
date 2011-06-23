@@ -1,0 +1,11 @@
+# txt files
+*.txt
+
+# rackets compilation
+*.dep
+*.zo
+
+# vim sw* files
+.*.sw*
+# backup files
+*~

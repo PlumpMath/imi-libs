@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi sugar update)
   (export update!)
   (import (rnrs))

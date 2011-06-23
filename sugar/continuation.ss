@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi sugar continuation)
   (export let/cc
           values->list)

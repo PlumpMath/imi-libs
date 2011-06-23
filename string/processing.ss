@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi string processing)
   (export string-remove
           string-chomp
@@ -15,8 +17,8 @@
   ;;;  -> string?
   (define (string-remove char str)
     (list->string
-      (remove char
-              (string->list str))))
+      (remq char
+            (string->list str))))
 
   ;;; removes :TODO:
   (define (string-chomp proc str)
@@ -31,14 +33,13 @@
 
   (define (string-split split? str)
     (map list->string
-         (remp null?
-               (list-split split?
-                           (string->list str)))))
+         (list-split split?
+                     (string->list str))))
 
 
-  (define (string-contains? str0 str1)
+  (define (string-contains? largestr substr)
     (list-contains char=?
-                   (string->list str0)
-                   (string->list str1)))
+                   (string->list largestr)
+                   (string->list substr)))
 
   )

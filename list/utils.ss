@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi list utils)
   (export length=?
           length>?
@@ -5,10 +7,16 @@
           length<  ; deprecated
           sorted?
 
+          list-length=?
+          list-length<?
+          list-length>?
+
           length*
 
           split-on
           reverse-append
+          list-pad
+          list-group
 
           take
           drop
@@ -63,13 +71,54 @@
   ;;;  being only renamed to length<?
   (define length< length<?)
 
+
+  ;;; checks if `ls0` has the same length as
+  ;;; `ls1`
+  ;;;
+  ;;; ls0 - list?
+  ;;; ls1 - list?
+  ;;;  -> boolean?
+  (define (list-length=? ls0 ls1)
+    (cond
+      [(null? ls0)
+       (null? ls1)]
+      [(null? ls1) #f]
+      [else
+       (list-length=? (cdr ls0)
+                      (cdr ls1))]))
+
+  ;;; checks if `ls0` is shorter than
+  ;;; `ls1`
+  ;;;
+  ;;; ls0 - list?
+  ;;; ls1 - list?
+  ;;;  -> boolean?
+  (define (list-length<? ls0 ls1)
+    (cond
+      [(null? ls0)
+       (not (null? ls1))]
+      [(null? ls1) #f]
+      [else
+       (list-length<? (cdr ls0)
+                      (cdr ls1))]))
+
+  ;;; checks if `ls0` is longer than
+  ;;; `ls1`
+  ;;;
+  ;;; ls0 - list?
+  ;;; ls1 - list?
+  ;;;  -> boolean?
+  (define (list-length>? ls0 ls1)
+    (list-length<? ls1 ls0))
+
+
   ;;; checks if `ls` is sorted in order `cmp`
   ;;;
   ;;; cmp - (-> any? lstype lstype)
   ;;; ls - (listof/c lstype)
   ;;;  -> boolean?
   (define (sorted? cmp ls)
-    (or (length< ls 2)
+    (or (length<? ls 2)
         (and (cmp (car ls)
                   (cadr ls))
              (sorted? cmp (cdr ls)))))
@@ -129,6 +178,57 @@
          (loop (cdr rev)
                (cons (car rev)
                      ls))])))
+
+  ;;; prepends `elem`s to `ls` so that
+  ;;;   the resulting list has the length
+  ;;;   `len`
+  ;;;
+  ;;; `len` - positive-integer?
+  ;;; `elem` - elemt
+  ;;; `ls` - (listof/c lst)
+  ;;;  -> (listof/c (or/c elemt lst))
+  (define (list-pad len elem ls)
+    (let loop ([count (- len (length ls))]
+               [ls ls])
+      (if (<= count 0)
+          ls
+          (loop (- count 1)
+                (cons elem ls)))))
+
+  ;;; creates a list of lists, where the
+  ;;;   inner lists have the length `len`
+  ;;;   and the elements in from the list
+  ;;;   `ls` in the original order
+  ;;;
+  ;;; `len` - positive-integer?
+  ;;; `ls` - (listof/c elemtype)
+  ;;;  -> (listof/c (listof/c elemtype))
+  (define (list-group len ls)
+    (let loop ([groups '()]
+               [act '()]
+               [remaining len]
+               [ls ls])
+      (cond
+        [(null? ls)
+         (if (zero? remaining)
+             (reverse (cons (reverse act)
+                            groups))
+             (error 'list-group
+                    "length of the list is not a multiple of len"
+                    ls len remaining))]
+        [(zero? remaining)
+         (loop (cons (reverse act)
+                     groups)
+               '()
+               len
+               ls)]
+        [else
+         (loop groups
+               (cons (car ls)
+                     act)
+               (- remaining 1)
+               (cdr ls))])))
+
 
   ;;; takes the first `n` elements of a list
   ;;;  and returns them as a new list

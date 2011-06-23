@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi utils print)
   (export print
           print-to
