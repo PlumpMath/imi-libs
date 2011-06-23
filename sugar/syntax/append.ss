@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi sugar syntax append)
   (export syntax-append)
   (import (rnrs)

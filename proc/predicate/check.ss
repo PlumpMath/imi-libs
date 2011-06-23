@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi proc predicate check)
   (export check-predicate
           verify-args)

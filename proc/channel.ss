@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi proc channel)
   (export call-with-channel
           channel-put

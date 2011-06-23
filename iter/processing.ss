@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi iter processing)
   (export iter-map)
   (import (rnrs)

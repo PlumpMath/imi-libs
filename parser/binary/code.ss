@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi parser binary code)
   (export parse-binary-code
           collect-binary-codes)

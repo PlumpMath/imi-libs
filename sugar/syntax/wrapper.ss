@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi sugar syntax wrapper)
   (export wrap-syntax
           syntax-wrapped-call

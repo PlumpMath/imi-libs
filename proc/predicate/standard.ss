@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi proc predicate standard)
   (export any?
           false?

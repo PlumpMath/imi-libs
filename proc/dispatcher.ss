@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi proc dispatcher)
   (export dispatchq
           dispatchv
@@ -8,6 +10,7 @@
   (define (generic-dispatcher name choose)
     (lambda (criteria ls . curried-args)
       (apply (cdr (or (choose criteria ls)
+                      (assq #f ls)
                       (error name
                              "could not dispatch"
                              criteria ls)))

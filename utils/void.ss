@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi utils void)
   (export void)
   (import (rnrs))

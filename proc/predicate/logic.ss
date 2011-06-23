@@ -1,7 +1,10 @@
+#!r6rs
+
 (library (imi proc predicate logic)
   (export or/p
           and/p)
-  (import (rnrs))
+  (import (rnrs)
+          (imi deprecated))
 
   ;;; DRAFTS
 
@@ -20,5 +23,7 @@
       (lambda (x)
         (and (pred0 x)
              ((apply and/p rest) x)))))
+
+  (mark-deprecated)
 
   )

@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi sugar begin0)
   (export begin0)
   (import (rnrs))

@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi anim simple)
   (export animation
           anim-reverse

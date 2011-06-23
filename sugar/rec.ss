@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi sugar rec)
   (export rec)
   (import (rnrs))

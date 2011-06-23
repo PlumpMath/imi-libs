@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi net io simple)
   (export as-tcp-server
           call-as-tcp-server

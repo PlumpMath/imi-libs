@@ -1,7 +1,11 @@
+#!r6rs
+
 (library (imi sugar cut)
-  (export cut)
+  (export cut
+          <>)
   (import (rnrs)
-          (imi sugar cut.compat))
+          (for (imi sugar cut-compat)
+               (meta 1)))
 
   ;;; short way to create a procedure which calls
   ;;;   another procedure with partial application
@@ -21,7 +25,7 @@
   ;;; (cut + 1 (/ <>)) | (lambda (x) (+ 1 (/ x)))
   (define-syntax cut
     (lambda (stx)
-      (syntax-case stx ()
+      (syntax-case stx (<>)
         [(cut id ...)
          (let-values ([(vars call) (transform #'(id ...))])
            (with-syntax ([(args call) (list (reverse vars)

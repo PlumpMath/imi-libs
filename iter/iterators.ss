@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi iter iterators)
   (export iter-list
 
@@ -58,6 +60,7 @@
 
   (define iter-range
     (case-lambda
+      [() (iter-range #f)]
       [(to) (iter-range 0 to)]
       [(from to) (iter-range from 
                              (if (< from to)
@@ -65,7 +68,8 @@
                                  -1)
                              to)]
       [(from step to)
-       (and (not (= from to))
+       (and (or (not to)
+                (not (= from to)))
             (iterate
               from
               (iter-range (+ from step)

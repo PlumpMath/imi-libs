@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi io path)
   (export relative-path
           absolute-path

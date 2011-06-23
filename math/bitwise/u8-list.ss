@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi math bitwise u8-list)
   (export s16->u8-list
           u16->u8-list

@@ -1,3 +1,5 @@
+#!r6rs
+
 (library (imi io utils)
   (export read-line)
   (import (rnrs))

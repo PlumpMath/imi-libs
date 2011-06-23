@@ -1,7 +1,16 @@
+#!r6rs
+
 (library (imi sugar for.compat)
-  (export divide-bindings)
+  (export in divide-bindings)
   (import (rnrs))
 
+
+  ;;; the in operator
+  (define-syntax in
+    (lambda (stx)
+      (error 'in
+             "incorrect usage of auxiliary keyword"
+             stx)))
 
   ;;; divides the bindings of for into
   ;;;  two groups; the bindings for an
