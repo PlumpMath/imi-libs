@@ -1,0 +1,21 @@
+(import (imi labs playground webshop compiler)
+        (imi labs playground webshop php))
+
+(define (phpcompile name)
+  (let ([name (if (symbol? name)
+                  (symbol->string name)
+                  name)])
+    (compile-file-to (string-append name ".scm")
+                     (string-append name ".php"))))
+
+(define (compile-file-to filein fileout)
+  (let ([comp (compile-file filein)])
+    (when (file-exists? fileout)
+      (delete-file fileout))
+    (with-output-to-file fileout
+      (lambda ()
+        (display "<?php") (newline)
+        (for-each (lambda (c)
+                    (write-c c 0 0))
+                  comp)
+        (display "?>") (newline)))))
